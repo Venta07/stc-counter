@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Sales Report - تقرير مبيعات STC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?v=1.4">
+    <link rel="stylesheet" href="styles.css?v=1.9">
+    <link rel="stylesheet" href="responsive.css?v=1.9">
+</head>
+<body>
+    <div class="mobile-menu-overlay"></div>
+    <button class="mobile-menu-toggle" aria-label="القائمة">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <div class="container">
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="images/stc-logo.png" alt="STC Logo" class="logo">
+                <h1>تقرير مبيعات STC</h1>
+                <img src="images/jawwy-logo.png" alt="Jawwy Logo" class="logo jawwy-logo">
+            </div>
+        </header>
+        
+        <nav class="mobile-nav">
+            <div class="mobile-nav-header">
+                <img src="https://www.stc.com.sa/wps/wcm/connect/og_ar/8f9c1e8f-1be0-4e32-9c9c-2a7e7e9e0e0e/logo.png" alt="STC Logo" class="mobile-logo">
+                <button class="mobile-close-btn" aria-label="إغلاق القائمة">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="#sawa" class="mobile-nav-link" data-tab="sawa">سوا</a></li>
+                <li><a href="#jawwy" class="mobile-nav-link" data-tab="jawwy">جوي</a></li>
+                <li><a href="#data" class="mobile-nav-link" data-tab="data">باقات البيانات</a></li>
+                <li><a href="#sim-transfer" class="mobile-nav-link" data-tab="sim-transfer">تحويل الشرائح</a></li>
+                <li><a href="#visits" class="mobile-nav-link" data-tab="visits">باقات الزيارة</a></li>
+            </ul>
+        </nav>
+
+        <div class="employee-info">
+            <input type="text" id="employeeName" placeholder="اسم الموظف">
+            <input type="date" id="saleDate">
+            <input type="text" id="location" placeholder="الموقع">
+        </div>
+
+        <div class="packages-tabs">
+            <button class="tab-button active" data-tab="sawa-tab">
+                <i class="fas fa-mobile-alt"></i> باقات سوا
+            </button>
+            <button class="tab-button" data-tab="jawy-tab">
+                <i class="fas fa-wifi"></i> باقات جوي
+            </button>
+            <button class="tab-button" data-tab="data-tab">
+                <i class="fas fa-database"></i> باقات البيانات
+            </button>
+            <button class="tab-button" data-tab="visitor-tab">
+                <i class="fas fa-passport"></i> سوا زيارة
+            </button>
+        </div>
+
+        <div class="tab-content active" id="sawa-tab">
+            <div id="sawa-packages" class="packages-list">
+                <!-- Sawa packages will be added here by JavaScript -->
+            </div>
+
+            <div class="sim-transfer">
+                <label>عدد تحويل الشرائح:</label>
+                <div class="transfer-controls">
+                    <div class="transfer-item">
+                        <div class="counter">
+                            <button onclick="updateCount('simTransfers', 1)"><i class="fas fa-plus"></i></button>
+                            <span id="simTransfers">0</span>
+                            <button onclick="updateCount('simTransfers', -1)"><i class="fas fa-minus"></i></button>
+                        </div>
+                        <span>عدد الشرائح المحولة</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="jawy-tab">
+            <div id="jawy-packages" class="packages-list">
+                <!-- Jawwy packages will be added here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="tab-content" id="data-tab">
+            <div id="data-packages" class="packages-list">
+                <!-- Data packages will be added here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="tab-content" id="visitor-tab">
+            <div id="visitor-packages" class="packages-list">
+                <!-- Visitor packages will be rendered here by JS -->
+            </div>
+
+            <div class="other-section">
+                <h3><i class="fas fa-passport"></i> باقات الزيارة</h3>
+                <div class="direct-recharge-entry">
+                    <input type="number" id="directRechargeAmount" placeholder="أدخل المبلغ" value="39">
+                    <input type="number" id="directRechargeQty" value="1" min="1" class="qty-input" style="width: 60px; text-align: center;">
+                    <button onclick="addDirectRecharge()" class="action-btn"><i class="fas fa-plus-circle"></i> إضافة زيارة</button>
+                </div>
+                <div id="directRechargesList" class="recharge-list"></div>
+            </div>
+        </div>
+        </div>
+
+
+
+        <div class="actions">
+            <button onclick="generateReport()" class="action-btn btn-generate">
+                <i class="fas fa-file-alt"></i> إنشاء التقرير
+            </button>
+            <button onclick="resetAll()" class="action-btn btn-reset">
+                <i class="fas fa-redo"></i> إعادة تعيين
+            </button>
+        </div>
+
+        <div class="report-container">
+            <h3><i class="fas fa-clipboard-list"></i> التقرير</h3>
+            <textarea id="reportOutput" readonly></textarea>
+            <button onclick="copyToClipboard()" class="action-btn btn-copy">
+                <i class="far fa-copy"></i> نسخ التقرير
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.9"></script>
+</body>
+</html>
