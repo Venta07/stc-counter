@@ -399,12 +399,24 @@ function generateReport() {
     try {
         const employeeName = document.getElementById('employeeName').value || 'غير محدد';
         const location = document.getElementById('location').value || 'غير محدد';
-        const saleDate = document.getElementById('saleDate').value;
+        const saleDateValue = document.getElementById('saleDate').value;
+
+        // Create a date object from the input. If input is empty, use today.
+        const date = saleDateValue ? new Date(saleDateValue) : new Date();
+        
+        // Adjust for timezone differences to prevent day-off errors
+        const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+        const correctedDate = new Date(date.getTime() + userTimezoneOffset);
+
+        const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+        const dayName = days[correctedDate.getDay()];
+        const formattedDate = `${correctedDate.getDate()}/${correctedDate.getMonth() + 1}/${correctedDate.getFullYear()}`;
+        const fullDateString = `${dayName}، ${formattedDate}`;
 
         let report = `تقرير المبيعات\n`;
         report += `الموظف: ${employeeName}\n`;
         report += `الموقع: ${location}\n`;
-        report += `التاريخ: ${saleDate}\n`;
+        report += `التاريخ: ${fullDateString}\n`;
         report += '====================\n\n';
 
         let grandTotal = 0;
