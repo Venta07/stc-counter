@@ -410,62 +410,54 @@ function generateReport() {
         let grandTotal = 0;
         let reportBody = '';
 
-        // Function to safely parse numbers
-        const parseValue = (value) => {
-            const parsed = parseFloat(value);
-            return isNaN(parsed) ? 0 : parsed;
-        };
+        // Function to safely parse numbers to ensure they are treated as numbers
+        const parseCount = (value) => parseInt(value, 10) || 0;
 
         // Packages (Sawa, Jawwy, Data, Visitors)
         Object.entries(packages).forEach(([category, items]) => {
             let sectionContent = '';
-            let sectionTotal = 0;
+            let sectionTotalCount = 0;
             const categoryName = getCategoryName(category);
 
             items.forEach(item => {
-                const count = counters[item.id] || 0;
+                const count = parseCount(counters[item.id]);
                 if (count > 0) {
-                    let itemAmount = 0;
-                    // Handle custom amount packages (like visitor packages)
+                    // For visitor packages with custom amounts, display the amount
                     if (item.isCustomAmount) {
                         const amountInput = document.getElementById(`${item.id}Amount`);
-                        itemAmount = parseValue(amountInput.value);
+                        const amount = amountInput.value || item.amount;
+                        sectionContent += `- ${item.name} ${amount} ريال: ${count}\n`;
                     } else {
-                        itemAmount = parseValue(item.amount);
+                        sectionContent += `- ${item.name}: ${count}\n`;
                     }
-                    
-                    const totalValue = count * itemAmount;
-                    sectionContent += `- ${item.name} (x${count}): ${totalValue.toFixed(2)} ريال\n`;
-                    sectionTotal += totalValue;
+                    sectionTotalCount += count;
                 }
             });
 
             if (sectionContent) {
                 reportBody += `${categoryName}:\n${sectionContent}\n`;
-                grandTotal += sectionTotal;
+                grandTotal += sectionTotalCount;
             }
         });
 
         // Direct Recharges
         if (directRecharges.length > 0) {
             let sectionContent = '';
-            let sectionTotal = 0;
+            let sectionTotalCount = 0;
             directRecharges.forEach(r => {
-                const amount = parseValue(r.amount);
-                const quantity = parseValue(r.quantity);
-                const totalValue = amount * quantity;
-                sectionContent += `- شحن ${amount} ريال (${quantity} مرة): ${totalValue.toFixed(2)} ريال\n`;
-                sectionTotal += totalValue;
+                const quantity = parseCount(r.quantity);
+                sectionContent += `- شحن ${r.amount} ريال: ${quantity} مرة\n`;
+                sectionTotalCount += quantity;
             });
             reportBody += `شحن مباشر:\n${sectionContent}\n`;
-            grandTotal += sectionTotal;
+            grandTotal += sectionTotalCount;
         }
 
-        // SIM Transfers (No monetary value, just count)
-        const simTransfers = counters.simTransfers || 0;
+        // SIM Transfers
+        const simTransfers = parseCount(counters.simTransfers);
         if (simTransfers > 0) {
             reportBody += `تحويل الشرائح:\n- عدد الشرائح المحولة: ${simTransfers}\n\n`;
-            // No addition to grandTotal as it's a count, not a monetary value
+            grandTotal += simTransfers;
         }
 
         if (!reportBody) {
