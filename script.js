@@ -438,7 +438,7 @@ function generateReport() {
                     if (item.isCustomAmount) {
                         const amountInput = document.getElementById(`${item.id}Amount`);
                         const amount = amountInput.value || item.amount;
-                        sectionContent += `- ${item.name} ${amount} ريال: ${count}\n`;
+                        sectionContent += `- ${item.name} ${amount}: ${count}\n`;
                     } else {
                         sectionContent += `- ${item.name}: ${count}\n`;
                     }
@@ -458,10 +458,10 @@ function generateReport() {
             let sectionTotalCount = 0;
             directRecharges.forEach(r => {
                 const quantity = parseCount(r.quantity);
-                sectionContent += `- شحن ${r.amount} ريال: ${quantity} مرة\n`;
+                sectionContent += `- زيارة ${r.amount}: ${quantity} مرة\n`;
                 sectionTotalCount += quantity;
             });
-            reportBody += `شحن مباشر:\n${sectionContent}\n`;
+            reportBody += `سوا زيارة:\n${sectionContent}\n`;
             grandTotal += sectionTotalCount;
         }
 
