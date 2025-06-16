@@ -1,43 +1,32 @@
 @echo off
-echo ===========================================
-echo    تحديث موقع فيرجن كاونتر
-    (سيتم تحديث الموقع تلقائيًا على render.com)
-echo ===========================================
+echo ===================================
+echo  Virgin Counter - GitHub Updater
+echo ===================================
+echo.
 
-:: الانتقال إلى مجلد المشروع
+:: Go to project folder
 cd /d "%~dp0"
 
-:: عرض حالة Git
-echo.
-echo جاري فحص حالة الملفات...
-git status
-
-:: إضافة جميع الملفات
-echo.
-echo جاري إضافة جميع الملفات الجديدة والمعدلة...
+echo Adding all changes to be tracked...
 git add .
-
-:: عمل commit
 echo.
-echo جاري حفظ التغييرات...
-git commit -m "تحديث تلقائي: %date% %time%"
 
-:: رفع التغييرات إلى GitHub
+set /p commit_message="Enter a brief description of your changes: "
 echo.
-echo جاري رفع التغييرات إلى GitHub...
+
+echo Saving changes with message: "%commit_message%"
+git commit -m "%commit_message%"
+echo.
+
+echo Uploading changes to GitHub...
 git push origin main
+echo.
 
-:: عرض رسالة النجاح
-echo.
-echo ===========================================
-echo    تم تحديث الموقع بنجاح!
-echo    سيتم تحديث الموقع على render.com خلال دقيقة
-    (جاري تحديث render.com تلقائيًا...)
-echo ===========================================
-echo.
-echo ملاحظة: إذا ظهرت لك نافذة تسجيل الدخول:
-- اسم المستخدم: Venta07
-- كلمة المرور: استخدم Personal Access Token
-  (وليس كلمة مرور GitHub العادية)
+echo ===================================
+echo  Update complete! The website will be updated on render.com in a minute.
+echo  Note: If asked for credentials:
+echo  - Username: Venta07
+echo  - Password: Use your GitHub Personal Access Token
+echo ===================================
 echo.
 pause
